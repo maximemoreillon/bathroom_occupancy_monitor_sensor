@@ -17,8 +17,6 @@ String header = "<div class='header'>telIoT Sensor</div>";
 String menu ="<h2>Menu</h2>"
   "<ul>"
   "<li><a href='/'>Status</a></li>"
-  "<li><a href='/change_mode?mode=ap'>AP mode</a></li>"
-  "<li><a href='/change_mode?mode=sta'>STA mode</a></li>"
   "<li><a href='/update_form'>Firmware update</a></li>"
   "</ul>";
   

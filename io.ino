@@ -2,11 +2,13 @@ void IO_setup(){
   
   pinMode(SENSOR_PIN,INPUT_PULLUP);
   pinMode(LED_PIN,OUTPUT);
+
+  // Turn LED OFF by default
   digitalWrite(LED_PIN,HIGH);
 }
 
 
-void sendOccupancy(boolean occupied){
+void HTTP_send_occupancy(boolean occupied){
 
   HTTPClient http;
 
@@ -33,14 +35,13 @@ void IO_read() {
       Serial.println("Door is now open");
       door_state = "OPEN";
       ws_server.broadcastTXT(VACANT,strlen(VACANT));
-      sendOccupancy(false);
+      HTTP_send_occupancy(false);
     }
     else {
       Serial.println("Door is now closed");
       door_state = "CLOSED";
       ws_server.broadcastTXT(OCCUPIED,strlen(OCCUPIED));
-      sendOccupancy(true);
-      
+      HTTP_send_occupancy(true);
     }
   }
 }

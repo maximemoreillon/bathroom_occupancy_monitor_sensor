@@ -1,26 +1,23 @@
+/*
+ * Flash settings:
+ * Board type: Wemos D1 mini
+ */
 
 // Libraries
 #include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <ESP8266WebServer.h>
 #include <WebSocketsServer.h>
-#include <EEPROM.h>
 #include <ESP8266HTTPClient.h> // To make HTTP requests
 
-// Wifi settings
-#define STA_SSID "teliot"
-#define STA_PASSWORD "poketenashi"
 
-// AP settings
-#define AP_SSID "teliotSensor01"
-#define AP_PASSWORD "poketenashi"
+// Wifi settings
+#define WIFI_STA_SSID "toiletIndicatorSouth"
+#define WIFI_STA_PASSWORD "poketenashi"
 
 // Web server setting
 #define WWW_PORT 80
 #define WS_PORT 81
-
-// EEPROM parameters
-#define EEPROM_MODE_ADDRESS 0x00 //0x00: ap, 0x01: sta
 
 // IO
 #define LED_PIN D4
@@ -33,7 +30,7 @@ WiFiEventHandler disconnectedEventHandler;
 // Wifi client for HTTP requests
 WiFiClient wifi_client;
 
-// Web server
+// Web server. mainly used for updates
 ESP8266WebServer www_server(WWW_PORT);
 WebSocketsServer ws_server = WebSocketsServer(WS_PORT);
 
@@ -42,13 +39,12 @@ const char VACANT[] = "vacant";
 const char OCCUPIED[] = "occupied";
 
 // Door related variables
+// This should become an INT
 char* door_state = "UNKNOWN";
 
 void setup() {
   // Mandatory initial delay
   delay(10);
-
-  EEPROM.begin(512);
   
   // Serial init
   Serial.begin(115200);

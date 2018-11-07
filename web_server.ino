@@ -2,13 +2,15 @@ void web_server_setup() {
   www_server.on("/", handle_root);
   www_server.on("/update_form", handle_update_form);
   www_server.on("/update",HTTP_POST, handle_update, handle_update_upload);
-  www_server.on("/change_mode", handle_change_mode);
   www_server.begin();
+
+  Serial.println("Web server started");
 }
 
 void handle_root() {
 
   String html = pre_main + root_main + post_main;
+  
   www_server.sendHeader("Connection", "close");
   www_server.sendHeader("Access-Control-Allow-Origin", "*");
   www_server.send(200, "text/html", html);
@@ -25,29 +27,6 @@ void handle_update_form(){
   www_server.sendHeader("Connection", "close");
   www_server.sendHeader("Access-Control-Allow-Origin", "*");
   www_server.send(200, "text/html", html);
-}
-
-void handle_change_mode(){
-
-  if (www_server.hasArg("mode")){
-    if( www_server.arg("mode").equals("ap") ){
-      
-      www_server.sendHeader("Connection", "close");
-      www_server.sendHeader("Access-Control-Allow-Origin", "*");
-      www_server.send(200, "text/html", pre_main + "Mode changed to AP, rebooting..." + post_main);
-      
-      set_ap_mode();
-    }
-    else if( www_server.arg("mode").equals("sta") ){
-      
-      www_server.sendHeader("Connection", "close");
-      www_server.sendHeader("Access-Control-Allow-Origin", "*");
-      www_server.send(200, "text/html", pre_main + "Mode changed to STA, rebooting..." + post_main);
-      
-      set_sta_mode();
-    }
-  }
-  www_server.send(200, "text/html", pre_main + "ERROR" + post_main);
 }
 
 void handle_update(){
@@ -67,7 +46,7 @@ void handle_update(){
   
 }
 
-void handle_update_upload(){
+void handle_update_upload() {
   HTTPUpload& upload = www_server.upload();
   if(upload.status == UPLOAD_FILE_START){
     Serial.setDebugOutput(true);
