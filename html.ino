@@ -4,31 +4,39 @@
 String styles = "<style>"
   "body{font-family: Verdana, Geneva, sans-serif; margin: 0px; background: #cccccc;}"
   ".wrapper{margin: 25px auto; width: 95%; max-width: 500px; background: white;  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);}"
-  ".header{font-size: 32px; padding: 15px; color: white; background: DimGrey; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);}"
+  ".header{ padding: 15px; color: white; background: DimGrey; box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);}"
   ".main{padding: 15px;}"
+  ".nav{padding: 15px;}"
+  "form{text-align:center;}"
   ".footer{text-align: center; padding: 10px; background: DarkGrey; color: white;}"
   "</style>";
 
 String head ="<head><title>telIoT</title>"+styles+"</head>";
 
 // Body partials
-String header = "<div class='header'>telIoT Sensor</div>";
+String header = "<div class='header'>"
+  "<h1>telIoT Sensor</h1>"
+  "</div>";
 
-String menu ="<h2>Menu</h2>"
+String nav = "<div class='nav'>"
+  "<h2>Menu</h2>"
   "<ul>"
   "<li><a href='/'>Status</a></li>"
   "<li><a href='/update_form'>Firmware update</a></li>"
-  "</ul>";
+  "<li><a href='http://192.168.4.1'>Access point</a></li>"
+  "</ul>"
+  "</div>";
   
 String footer = "<div class='footer'> Maxime Moreillon </div>";
 
-// Combination
+// Combinations
 String pre_main = "<html>" + head +"<body><div class='wrapper'>" + header + "<div class='main'>";
-String post_main = menu + "</div>" + footer + "</div></body></html>";
+String post_main = "</div>" + nav + footer + "</div></body></html>";
 
 // Root
-String root_main = "<div id='status_container'>"
-  "UNDEFINED"
+String root_main = "<h2>Status</h2>"
+  "<div id='status_container'>"
+  "UNKNOWN"
   "</div>"
   "<script>"
   "websock = new WebSocket('ws://' + window.location.hostname + ':81/');"
@@ -49,3 +57,10 @@ String root_main = "<div id='status_container'>"
   "  }"
   "};"
   "</script>";
+
+  // Update form
+String update_form = "<h2>Firmware update</h2>"
+  "<form method='POST' action='/update' enctype='multipart/form-data'>"
+  "<input type='file' name='update'>"
+  "<input type='submit' value='Update'>"
+  "</form>";

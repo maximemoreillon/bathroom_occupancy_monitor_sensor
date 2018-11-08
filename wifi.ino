@@ -5,26 +5,27 @@ void wifi_setup(){
   digitalWrite(LED_PIN,LOW);
 
   gotIpEventHandler = WiFi.onStationModeGotIP([](const WiFiEventStationModeGotIP& event) {
-    // Turn LED OFF when WIFI connected
+    // Debug message
     Serial.print("STA connected, IP: ");
     Serial.println(WiFi.localIP());
-    digitalWrite(LED_PIN,HIGH);
+
+    // Turn LED OFF when WIFI connected
+    digitalWrite(LED_PIN,HIGH);    
   });
 
   disconnectedEventHandler = WiFi.onStationModeDisconnected([](const WiFiEventStationModeDisconnected& event) {
-    // Turn LED ON when WIFI disconnected
+
+    // Debug message
     Serial.println("STA disconnected");
+
+    // Turn LED ON when WIFI disconnected
     digitalWrite(LED_PIN,LOW);
   });
 
   Serial.println("Connecting to Wifi...");
   WiFi.begin(WIFI_STA_SSID, WIFI_STA_PASSWORD);
 
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(10);
-  }
-
-  
+  // No need to wait for connection?
 }
 
 

@@ -8,22 +8,14 @@ void web_server_setup() {
 }
 
 void handle_root() {
-
   String html = pre_main + root_main + post_main;
-  
   www_server.sendHeader("Connection", "close");
   www_server.sendHeader("Access-Control-Allow-Origin", "*");
   www_server.send(200, "text/html", html);
 }
 
 void handle_update_form(){
-  
-  String form = "<form method='POST' action='/update' enctype='multipart/form-data'>"
-  "<input type='file' name='update'>"
-  "<input type='submit' value='Update'>"
-  "</form>";
-
-  String html = pre_main + form + post_main;
+  String html = pre_main + update_form + post_main;
   www_server.sendHeader("Connection", "close");
   www_server.sendHeader("Access-Control-Allow-Origin", "*");
   www_server.send(200, "text/html", html);
