@@ -22,9 +22,6 @@ void IO_setup(){
   pinMode(SENSOR_PIN,INPUT_PULLUP);
   pinMode(LED_PIN,OUTPUT);
 
-  // Interrupts not working (wdt)
-  // attachInterrupt(digitalPinToInterrupt(SENSOR_PIN), interrupt_handler, CHANGE);
-
   // Turn LED OFF by default
   digitalWrite(LED_PIN,HIGH);
 }
@@ -48,19 +45,10 @@ void HTTP_send_occupancy(){
 
 void WS_send_occupancy(){
   if(toilet_occupied == 1) {
-    ws_server.broadcastTXT(OCCUPIED,strlen(OCCUPIED));
+    ws_server.broadcastTXT(OCCUPIED);
   }
   else if (toilet_occupied == 0){
-    ws_server.broadcastTXT(VACANT,strlen(VACANT));
+    ws_server.broadcastTXT(VACANT);
   }
 }
-
-/*
-void interrupt_handler(){
-  Serial.println("Occupancy changed");
-  read_sensor();
-  WS_send_occupancy();
-  HTTP_send_occupancy();
-}
-*/
 
